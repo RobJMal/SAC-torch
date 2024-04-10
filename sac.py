@@ -15,6 +15,12 @@ import glob
 import subprocess
 import matplotlib.pyplot as plt
 
+# Additional imports
+import random
+import wandb 
+import ruamel.yaml as yaml
+from pathlib import Path 
+
 # Experience replay buffer
 class ReplayBuffer:
     def __init__(self, capacity, device):
@@ -369,4 +375,17 @@ def parse_args():
 
 if __name__ == '__main__':
     arglist = parse_args()
-    sac = SAC(arglist)
+
+    with open("configs.yaml", "r") as yaml_file:
+        yaml_obj = yaml.YAML()
+        configs = yaml_obj.load(yaml_file)
+
+    wandb.init(
+        entity = configs['defaults']['wandb_entity'],
+        group = configs['defaults']['wandb_group'],
+        project = configs['defaults']['wandb_project'],
+        name = "fish-swim_test-1",
+        sync_tensorboard = True,
+    )
+
+    # sac = SAC(arglist)
