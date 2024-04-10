@@ -1,0 +1,4 @@
+defaults:
+  wandb_entity: srl_ethz
+  wandb_group: dmc_baselines
+  wandb_project: fsi_semester_project
