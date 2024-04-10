@@ -116,6 +116,7 @@ class SAC:
         self.action_size = math.prod(action_spec.shape)
 
         self.device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
+        print("Utilizing GPU: ", torch.cuda.is_available())
 
         self.actor = Pi_FC(self.obs_size,self.action_size).to(self.device)
 
@@ -285,6 +286,9 @@ class SAC:
                     self.soft_update(self.critic_target_2, self.critic_2, self.arglist.tau)
 
                 if done:
+                    print(f"Episode {episode}: Total reward = {ep_r}")
+                    wandb.log({"reward": ep_r}, step=episode)
+
                     writer.add_scalar('ep_r', ep_r, episode)
                     with torch.no_grad():
                         writer.add_scalar('alpha',torch.exp(self.log_alpha).item(),episode)
@@ -376,16 +380,16 @@ def parse_args():
 if __name__ == '__main__':
     arglist = parse_args()
 
-    # with open("configs.yaml", "r") as yaml_file:
-    #     yaml_obj = yaml.YAML()
-    #     configs = yaml_obj.load(yaml_file)
+    with open("configs.yaml", "r") as yaml_file:
+        yaml_obj = yaml.YAML()
+        configs = yaml_obj.load(yaml_file)
 
-    # wandb.init(
-    #     entity = configs['defaults']['wandb_entity'],
-    #     group = configs['defaults']['wandb_group'],
-    #     project = configs['defaults']['wandb_project'],
-    #     name = "fish-swim_test-1",
-    #     sync_tensorboard = True,
-    # )
+    wandb.init(
+        entity = configs['defaults']['wandb_entity'],
+        group = configs['defaults']['wandb_group'],
+        project = configs['defaults']['wandb_project'],
+        name = "fish-swim_test-0",
+        sync_tensorboard = True,
+    )
 
     sac = SAC(arglist)
