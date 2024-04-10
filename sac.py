@@ -376,16 +376,16 @@ def parse_args():
 if __name__ == '__main__':
     arglist = parse_args()
 
-    with open("configs.yaml", "r") as yaml_file:
-        yaml_obj = yaml.YAML()
-        configs = yaml_obj.load(yaml_file)
+    # with open("configs.yaml", "r") as yaml_file:
+    #     yaml_obj = yaml.YAML()
+    #     configs = yaml_obj.load(yaml_file)
 
-    wandb.init(
-        entity = configs['defaults']['wandb_entity'],
-        group = configs['defaults']['wandb_group'],
-        project = configs['defaults']['wandb_project'],
-        name = "fish-swim_test-1",
-        sync_tensorboard = True,
-    )
+    # wandb.init(
+    #     entity = configs['defaults']['wandb_entity'],
+    #     group = configs['defaults']['wandb_group'],
+    #     project = configs['defaults']['wandb_project'],
+    #     name = "fish-swim_test-1",
+    #     sync_tensorboard = True,
+    # )
 
-    # sac = SAC(arglist)
+    sac = SAC(arglist)
