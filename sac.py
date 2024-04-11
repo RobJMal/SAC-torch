@@ -381,8 +381,8 @@ def parse_args():
     parser.add_argument("--eval-over", type=int, default=50, help="each time eval over _ episodes")
     # Eval settings
     parser.add_argument("--checkpoint", type=str, default="", help="path to checkpoint")
-    parser.add_argument("--render", action="store_true", default=False, help="render")
-    parser.add_argument("--save-video", action="store_true", default=False, help="save video")
+    parser.add_argument("--render", action="store_true", default=True, help="render")
+    parser.add_argument("--save-video", action="store_true", default=True, help="save video")
 
     return parser.parse_args()
 
