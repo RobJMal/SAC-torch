@@ -121,6 +121,15 @@ class SAC:
         self.actor = Pi_FC(self.obs_size,self.action_size).to(self.device)
 
         if self.arglist.mode == "train":
+            # Initializing wandb
+            wandb.init(
+                entity = configs['defaults']['wandb_entity'],
+                group = configs['defaults']['wandb_group'],
+                project = configs['defaults']['wandb_project'],
+                name = configs['defaults']['run_name'],
+                sync_tensorboard = True,
+            )
+
             self.critic_1 = Q_FC(self.obs_size,self.action_size).to(self.device)
             self.critic_target_1 = deepcopy(self.critic_1)       
             self.critic_loss_fn_1 =  torch.nn.MSELoss()
@@ -384,12 +393,5 @@ if __name__ == '__main__':
         yaml_obj = yaml.YAML()
         configs = yaml_obj.load(yaml_file)
 
-    wandb.init(
-        entity = configs['defaults']['wandb_entity'],
-        group = configs['defaults']['wandb_group'],
-        project = configs['defaults']['wandb_project'],
-        name = "fish-swim_test-0",
-        sync_tensorboard = True,
-    )
-
     sac = SAC(arglist)
+    wandb.finish()
