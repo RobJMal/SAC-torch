@@ -122,13 +122,14 @@ class SAC:
 
         if self.arglist.mode == "train":
             # Initializing wandb
-            wandb.init(
-                entity = configs['defaults']['wandb_entity'],
-                group = configs['defaults']['wandb_group'],
-                project = configs['defaults']['wandb_project'],
-                name = configs['defaults']['run_name'],
-                sync_tensorboard = True,
-            )
+            if configs['defaults']['init_wandb']: 
+                wandb.init(
+                    entity = configs['defaults']['wandb_entity'],
+                    group = configs['defaults']['wandb_group'],
+                    project = configs['defaults']['wandb_project'],
+                    name = configs['defaults']['run_name'],
+                    sync_tensorboard = True,
+                )
 
             self.critic_1 = Q_FC(self.obs_size,self.action_size).to(self.device)
             self.critic_target_1 = deepcopy(self.critic_1)       
